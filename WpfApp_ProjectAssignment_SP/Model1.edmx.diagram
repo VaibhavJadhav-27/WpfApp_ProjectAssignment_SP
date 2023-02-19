@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e8d3336bdc674b9da4d589c32e4b8845" Name="Diagram1">
+        <EntityTypeShape EntityType="DemoModel.V_DEV_ProductType" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DemoModel.V_MST_Brand" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DemoModel.V_MST_Category" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DemoModel.V_MST_Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DemoModel.V_MST_ProductSpecification" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DemoModel.Table_1" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="DemoModel.FK_V_MST_Product_V_DEV_ProductType" ManuallyRouted="false" />
+        <AssociationConnector Association="DemoModel.FK_V_MST_Product_V_MST_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="DemoModel.FK_V_MST_ProductSpecification_V_MST_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="DemoModel.V_MAP_ProductCategory" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

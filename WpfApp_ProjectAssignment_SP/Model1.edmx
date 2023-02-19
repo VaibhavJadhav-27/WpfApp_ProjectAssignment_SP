@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DemoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Demo.dbo.Table_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Table_1">
+          <Key>
+            <PropertyRef Name="ProductCode" />
+            <PropertyRef Name="ProductName" />
+            <PropertyRef Name="BrandId" />
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="Specifications" />
+          </Key>
+          <Property Name="ProductCode" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="BrandId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="Specifications" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_DEV_ProductType">
+          <Key>
+            <PropertyRef Name="ProductTypeId" />
+          </Key>
+          <Property Name="ProductTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductType" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_MAP_ProductCategory">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_MST_Brand">
+          <Key>
+            <PropertyRef Name="BrandId" />
+          </Key>
+          <Property Name="BrandId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandName" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_MST_Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_MST_Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ProductDescription" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="ProductTypeId" Type="int" Nullable="false" />
+          <Property Name="ProductImage" Type="varchar" MaxLength="500" />
+          <Property Name="BrandId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_MST_ProductSpecification">
+          <Key>
+            <PropertyRef Name="ProductSpecificationId" />
+          </Key>
+          <Property Name="ProductSpecificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="SpecificationName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="SpecificationValue" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__V_MAP_Pro__Categ__6A30C649">
+          <End Role="V_MST_Category" Type="Self.V_MST_Category" Multiplicity="1" />
+          <End Role="V_MAP_ProductCategory" Type="Self.V_MAP_ProductCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="V_MST_Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="V_MAP_ProductCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__V_MAP_Pro__Produ__693CA210">
+          <End Role="V_MST_Product" Type="Self.V_MST_Product" Multiplicity="1" />
+          <End Role="V_MAP_ProductCategory" Type="Self.V_MAP_ProductCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="V_MST_Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="V_MAP_ProductCategory">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_V_MST_Product_V_DEV_ProductType">
+          <End Role="V_DEV_ProductType" Type="Self.V_DEV_ProductType" Multiplicity="1" />
+          <End Role="V_MST_Product" Type="Self.V_MST_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="V_DEV_ProductType">
+              <PropertyRef Name="ProductTypeId" />
+            </Principal>
+            <Dependent Role="V_MST_Product">
+              <PropertyRef Name="ProductTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_V_MST_Product_V_MST_Brand">
+          <End Role="V_MST_Brand" Type="Self.V_MST_Brand" Multiplicity="1" />
+          <End Role="V_MST_Product" Type="Self.V_MST_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="V_MST_Brand">
+              <PropertyRef Name="BrandId" />
+            </Principal>
+            <Dependent Role="V_MST_Product">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_V_MST_ProductSpecification_V_MST_Product">
+          <End Role="V_MST_Product" Type="Self.V_MST_Product" Multiplicity="1" />
+          <End Role="V_MST_ProductSpecification" Type="Self.V_MST_ProductSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="V_MST_Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="V_MST_ProductSpecification">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="USP_InsertProductRecords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="productcode" Type="varchar(max)" Mode="In" />
+          <Parameter Name="ProductName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="productdescription" Type="varchar(max)" Mode="In" />
+          <Parameter Name="producttype" Type="varchar(max)" Mode="In" />
+          <Parameter Name="BrandIds" Type="varchar(max)" Mode="In" />
+          <Parameter Name="categoryids" Type="varchar(max)" Mode="In" />
+          <Parameter Name="xmlstring" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="USP_SearchProductRecords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="productname" Type="varchar(max)" Mode="In" />
+          <Parameter Name="productcode" Type="varchar(max)" Mode="In" />
+          <Parameter Name="brandid" Type="varchar(max)" Mode="In" />
+          <Parameter Name="categoryid" Type="varchar(max)" Mode="In" />
+          <Parameter Name="producttype" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="USP_UpdateProductRecords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductCode" Type="int" Mode="In" />
+          <Parameter Name="ProductName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="productdescription" Type="varchar(max)" Mode="In" />
+          <Parameter Name="producttype" Type="varchar(max)" Mode="In" />
+          <Parameter Name="BrandIds" Type="varchar(max)" Mode="In" />
+          <Parameter Name="categoryids" Type="varchar(max)" Mode="In" />
+          <Parameter Name="xmlstring" Type="varchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="DemoModelStoreContainer">
+          <EntitySet Name="V_DEV_ProductType" EntityType="Self.V_DEV_ProductType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_MAP_ProductCategory" EntityType="Self.V_MAP_ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_MST_Brand" EntityType="Self.V_MST_Brand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_MST_Category" EntityType="Self.V_MST_Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_MST_Product" EntityType="Self.V_MST_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_MST_ProductSpecification" EntityType="Self.V_MST_ProductSpecification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_1" EntityType="Self.Table_1" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Table_1].[ProductCode] AS [ProductCode], 
+    [Table_1].[ProductName] AS [ProductName], 
+    [Table_1].[BrandId] AS [BrandId], 
+    [Table_1].[CategoryId] AS [CategoryId], 
+    [Table_1].[Specifications] AS [Specifications]
+    FROM [dbo].[Table_1] AS [Table_1]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__V_MAP_Pro__Categ__6A30C649" Association="Self.FK__V_MAP_Pro__Categ__6A30C649">
+            <End Role="V_MST_Category" EntitySet="V_MST_Category" />
+            <End Role="V_MAP_ProductCategory" EntitySet="V_MAP_ProductCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__V_MAP_Pro__Produ__693CA210" Association="Self.FK__V_MAP_Pro__Produ__693CA210">
+            <End Role="V_MST_Product" EntitySet="V_MST_Product" />
+            <End Role="V_MAP_ProductCategory" EntitySet="V_MAP_ProductCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_V_MST_Product_V_DEV_ProductType" Association="Self.FK_V_MST_Product_V_DEV_ProductType">
+            <End Role="V_DEV_ProductType" EntitySet="V_DEV_ProductType" />
+            <End Role="V_MST_Product" EntitySet="V_MST_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_V_MST_Product_V_MST_Brand" Association="Self.FK_V_MST_Product_V_MST_Brand">
+            <End Role="V_MST_Brand" EntitySet="V_MST_Brand" />
+            <End Role="V_MST_Product" EntitySet="V_MST_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_V_MST_ProductSpecification_V_MST_Product" Association="Self.FK_V_MST_ProductSpecification_V_MST_Product">
+            <End Role="V_MST_Product" EntitySet="V_MST_Product" />
+            <End Role="V_MST_ProductSpecification" EntitySet="V_MST_ProductSpecification" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DemoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="V_DEV_ProductType">
+          <Key>
+            <PropertyRef Name="ProductTypeId" />
+          </Key>
+          <Property Name="ProductTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="V_MST_Product" Relationship="Self.FK_V_MST_Product_V_DEV_ProductType" FromRole="V_DEV_ProductType" ToRole="V_MST_Product" />
+        </EntityType>
+        <EntityType Name="V_MST_Brand">
+          <Key>
+            <PropertyRef Name="BrandId" />
+          </Key>
+          <Property Name="BrandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="V_MST_Product" Relationship="Self.FK_V_MST_Product_V_MST_Brand" FromRole="V_MST_Brand" ToRole="V_MST_Product" />
+        </EntityType>
+        <EntityType Name="V_MST_Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="V_MST_Product" Relationship="Self.V_MAP_ProductCategory" FromRole="V_MST_Category" ToRole="V_MST_Product" />
+        </EntityType>
+        <EntityType Name="V_MST_Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ProductImage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="BrandId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="V_DEV_ProductType" Relationship="Self.FK_V_MST_Product_V_DEV_ProductType" FromRole="V_MST_Product" ToRole="V_DEV_ProductType" />
+          <NavigationProperty Name="V_MST_Brand" Relationship="Self.FK_V_MST_Product_V_MST_Brand" FromRole="V_MST_Product" ToRole="V_MST_Brand" />
+          <NavigationProperty Name="V_MST_ProductSpecification" Relationship="Self.FK_V_MST_ProductSpecification_V_MST_Product" FromRole="V_MST_Product" ToRole="V_MST_ProductSpecification" />
+          <NavigationProperty Name="V_MST_Category" Relationship="Self.V_MAP_ProductCategory" FromRole="V_MST_Product" ToRole="V_MST_Category" />
+        </EntityType>
+        <EntityType Name="V_MST_ProductSpecification">
+          <Key>
+            <PropertyRef Name="ProductSpecificationId" />
+          </Key>
+          <Property Name="ProductSpecificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="SpecificationName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SpecificationValue" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="V_MST_Product" Relationship="Self.FK_V_MST_ProductSpecification_V_MST_Product" FromRole="V_MST_ProductSpecification" ToRole="V_MST_Product" />
+        </EntityType>
+        <EntityType Name="Table_1">
+          <Key>
+            <PropertyRef Name="ProductCode" />
+            <PropertyRef Name="ProductName" />
+            <PropertyRef Name="BrandId" />
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="Specifications" />
+          </Key>
+          <Property Name="ProductCode" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BrandId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="Specifications" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_V_MST_Product_V_DEV_ProductType">
+          <End Role="V_DEV_ProductType" Type="Self.V_DEV_ProductType" Multiplicity="1" />
+          <End Role="V_MST_Product" Type="Self.V_MST_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="V_DEV_ProductType">
+              <PropertyRef Name="ProductTypeId" />
+            </Principal>
+            <Dependent Role="V_MST_Product">
+              <PropertyRef Name="ProductTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_V_MST_Product_V_MST_Brand">
+          <End Role="V_MST_Brand" Type="Self.V_MST_Brand" Multiplicity="1" />
+          <End Role="V_MST_Product" Type="Self.V_MST_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="V_MST_Brand">
+              <PropertyRef Name="BrandId" />
+            </Principal>
+            <Dependent Role="V_MST_Product">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_V_MST_ProductSpecification_V_MST_Product">
+          <End Role="V_MST_Product" Type="Self.V_MST_Product" Multiplicity="1" />
+          <End Role="V_MST_ProductSpecification" Type="Self.V_MST_ProductSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="V_MST_Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="V_MST_ProductSpecification">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="V_MAP_ProductCategory">
+          <End Role="V_MST_Category" Type="Self.V_MST_Category" Multiplicity="*" />
+          <End Role="V_MST_Product" Type="Self.V_MST_Product" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="DemoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="V_DEV_ProductType" EntityType="Self.V_DEV_ProductType" />
+          <EntitySet Name="V_MST_Brand" EntityType="Self.V_MST_Brand" />
+          <EntitySet Name="V_MST_Category" EntityType="Self.V_MST_Category" />
+          <EntitySet Name="V_MST_Product" EntityType="Self.V_MST_Product" />
+          <EntitySet Name="V_MST_ProductSpecification" EntityType="Self.V_MST_ProductSpecification" />
+          <EntitySet Name="Table_1" EntityType="Self.Table_1" />
+          <AssociationSet Name="FK_V_MST_Product_V_DEV_ProductType" Association="Self.FK_V_MST_Product_V_DEV_ProductType">
+            <End Role="V_DEV_ProductType" EntitySet="V_DEV_ProductType" />
+            <End Role="V_MST_Product" EntitySet="V_MST_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_V_MST_Product_V_MST_Brand" Association="Self.FK_V_MST_Product_V_MST_Brand">
+            <End Role="V_MST_Brand" EntitySet="V_MST_Brand" />
+            <End Role="V_MST_Product" EntitySet="V_MST_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_V_MST_ProductSpecification_V_MST_Product" Association="Self.FK_V_MST_ProductSpecification_V_MST_Product">
+            <End Role="V_MST_Product" EntitySet="V_MST_Product" />
+            <End Role="V_MST_ProductSpecification" EntitySet="V_MST_ProductSpecification" />
+          </AssociationSet>
+          <AssociationSet Name="V_MAP_ProductCategory" Association="Self.V_MAP_ProductCategory">
+            <End Role="V_MST_Category" EntitySet="V_MST_Category" />
+            <End Role="V_MST_Product" EntitySet="V_MST_Product" />
+          </AssociationSet>
+          <FunctionImport Name="USP_InsertProductRecords">
+            <Parameter Name="productcode" Mode="In" Type="String" />
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="productdescription" Mode="In" Type="String" />
+            <Parameter Name="producttype" Mode="In" Type="String" />
+            <Parameter Name="BrandIds" Mode="In" Type="String" />
+            <Parameter Name="categoryids" Mode="In" Type="String" />
+            <Parameter Name="xmlstring" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="USP_SearchProductRecords" ReturnType="Collection(DemoModel.USP_SearchProductRecords_Result)">
+            <Parameter Name="productname" Mode="In" Type="String" />
+            <Parameter Name="productcode" Mode="In" Type="String" />
+            <Parameter Name="brandid" Mode="In" Type="String" />
+            <Parameter Name="categoryid" Mode="In" Type="String" />
+            <Parameter Name="producttype" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="USP_UpdateProductRecords">
+            <Parameter Name="ProductCode" Mode="In" Type="Int32" />
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="productdescription" Mode="In" Type="String" />
+            <Parameter Name="producttype" Mode="In" Type="String" />
+            <Parameter Name="BrandIds" Mode="In" Type="String" />
+            <Parameter Name="categoryids" Mode="In" Type="String" />
+            <Parameter Name="xmlstring" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="USP_SearchProductRecords_Result">
+          <Property Type="String" Name="ProductCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="ProductDescription" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="ProductTypeId" Nullable="false" />
+          <Property Type="String" Name="BrandName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CategoryId" Nullable="false" />
+          <Property Type="String" Name="CategoryName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SpecificationName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="SpecificationValue" Nullable="false" MaxLength="200" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DemoModelStoreContainer" CdmEntityContainer="DemoEntities">
+          <EntitySetMapping Name="V_DEV_ProductType">
+            <EntityTypeMapping TypeName="DemoModel.V_DEV_ProductType">
+              <MappingFragment StoreEntitySet="V_DEV_ProductType">
+                <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_MST_Brand">
+            <EntityTypeMapping TypeName="DemoModel.V_MST_Brand">
+              <MappingFragment StoreEntitySet="V_MST_Brand">
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_MST_Category">
+            <EntityTypeMapping TypeName="DemoModel.V_MST_Category">
+              <MappingFragment StoreEntitySet="V_MST_Category">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_MST_Product">
+            <EntityTypeMapping TypeName="DemoModel.V_MST_Product">
+              <MappingFragment StoreEntitySet="V_MST_Product">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
+                <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_MST_ProductSpecification">
+            <EntityTypeMapping TypeName="DemoModel.V_MST_ProductSpecification">
+              <MappingFragment StoreEntitySet="V_MST_ProductSpecification">
+                <ScalarProperty Name="ProductSpecificationId" ColumnName="ProductSpecificationId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="SpecificationName" ColumnName="SpecificationName" />
+                <ScalarProperty Name="SpecificationValue" ColumnName="SpecificationValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_1">
+            <EntityTypeMapping TypeName="DemoModel.Table_1">
+              <MappingFragment StoreEntitySet="Table_1">
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Specifications" ColumnName="Specifications" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="V_MAP_ProductCategory" TypeName="DemoModel.V_MAP_ProductCategory" StoreEntitySet="V_MAP_ProductCategory">
+            <EndProperty Name="V_MST_Category">
+              <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+            </EndProperty>
+            <EndProperty Name="V_MST_Product">
+              <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="USP_InsertProductRecords" FunctionName="DemoModel.Store.USP_InsertProductRecords" />
+          <FunctionImportMapping FunctionImportName="USP_SearchProductRecords" FunctionName="DemoModel.Store.USP_SearchProductRecords">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DemoModel.USP_SearchProductRecords_Result">
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="SpecificationName" ColumnName="SpecificationName" />
+                <ScalarProperty Name="SpecificationValue" ColumnName="SpecificationValue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="USP_UpdateProductRecords" FunctionName="DemoModel.Store.USP_UpdateProductRecords" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
